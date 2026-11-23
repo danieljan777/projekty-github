@@ -6,10 +6,4 @@ site:
   title: "Daniel Jankowski — projekty"
   tagline: "Wszystkie moje projekty z GitHuba, aktualizowane automatycznie."
 
-projects:
-  test1:
-    hidden: true
-  locky-web:
-    title: "Locky Łódź"
-    description: "Strona internetowa Locky Łódź."
-    url: "https://locky-web.vercel.app"
+projects: {}

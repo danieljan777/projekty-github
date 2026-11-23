@@ -6,11 +6,11 @@ site:
   title: "Moje projekty"
   tagline: "Opis"
 projects:
-  locky-web:
-    title: "Locky"
+  przyklad-repo:
+    title: "Przykład"
     description: "Strona"
-    url: "https://locky-web.vercel.app"
-  test1:
+    url: "https://demo.example"
+  stare-repo:
     hidden: true
 `;
 
@@ -18,12 +18,12 @@ describe('parseConfig', () => {
   test('poprawny YAML zwraca site i projects', () => {
     const config = parseConfig(valid);
     expect(config.site).toEqual({ title: 'Moje projekty', tagline: 'Opis' });
-    expect(config.projects['locky-web']).toEqual({
-      title: 'Locky',
+    expect(config.projects['przyklad-repo']).toEqual({
+      title: 'Przykład',
       description: 'Strona',
-      url: 'https://locky-web.vercel.app',
+      url: 'https://demo.example',
     });
-    expect(config.projects.test1).toEqual({ hidden: true });
+    expect(config.projects['stare-repo']).toEqual({ hidden: true });
   });
 
   test('brak site.title rzuca błąd', () => {
