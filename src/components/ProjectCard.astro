@@ -1,0 +1,32 @@
+---
+import type { PrivateProject, PublicProject } from '../lib/types.ts';
+
+interface Props {
+  project: PublicProject | PrivateProject;
+  /** 0..1 — jak świeża jest ostatnia zmiana względem pozostałych projektów. */
+  share: number;
+}
+
+const { project, share } = Astro.props;
+const isPublic = project.visibility === 'public';
+const title = project.visibility === 'public' ? project.name : (project.title ?? project.name);
+const link = project.visibility === 'public' ? project.htmlUrl : (project.url ?? null);
+const homepage = project.visibility === 'public' ? project.homepage : null;
+const date = new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }).format(
+  new Date(project.pushedAt),
+);
+---
+<li class="project">
+  <h3>{link ? <a href={link}>{title}</a> : title}</h3>
+  {project.description && <p class="about">{project.description}</p>}
+  <p class="meta">
+    {project.language ?? 'bez przypisanego języka'}
+    {project.archived && <span class="tag">archiwum</span>}
+    {isPublic && homepage && <a href={homepage}>strona projektu</a>}
+    {!isPublic && link && <a href={link}>zobacz stronę</a>}
+  </p>
+  <p class="when">
+    <span class="pulse" style={`--share:${share.toFixed(3)}`} aria-hidden="true"></span>
+    Ostatnia zmiana: <time datetime={project.pushedAt}>{date}</time>
+  </p>
+</li>

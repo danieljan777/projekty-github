@@ -1,0 +1,69 @@
+:root {
+  --bg: #e9eef2;
+  --ink: #14202b;
+  --muted: #4b5b69;
+  --line: #c7d2db;
+  --accent: #1d6fa5;
+  --serif: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1620;
+    --ink: #e4ebf1;
+    --muted: #9aaab8;
+    --line: #26343f;
+    --accent: #6db8ea;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1rem/1.55 var(--sans);
+}
+
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1rem 5rem; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; margin: 3rem 0 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+h3 { font-size: 1.15rem; }
+
+.tagline { margin: 0.75rem 0 0; font-size: 1.1rem; max-width: 36rem; }
+.stamp { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem; }
+.empty { color: var(--muted); max-width: 36rem; margin: 1rem 0 0; }
+
+ul { list-style: none; margin: 0; padding: 0; }
+.project { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+.project:last-child { border-bottom: 0; }
+.about { margin: 0.35rem 0 0; max-width: 40rem; }
+.meta, .when { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
+.meta a { margin-left: 0.75rem; }
+.tag { margin-left: 0.5rem; padding: 0 0.4rem; border: 1px solid var(--line); border-radius: 3px; font-size: 0.8rem; }
+
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* Pasek aktywności: długość = świeżość ostatniej zmiany wśród wszystkich projektów. */
+.when { display: flex; align-items: center; gap: 0.6rem; }
+.pulse {
+  display: inline-block;
+  flex: none;
+  width: 5rem;
+  height: 0.4rem;
+  border-radius: 2px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) left / calc(var(--share) * 100%) 100% no-repeat,
+    var(--line);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse { animation: grow 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  @keyframes grow { from { background-size: 0 100%, 100% 100%; } }
+}

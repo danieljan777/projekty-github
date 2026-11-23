@@ -1,0 +1,54 @@
+---
+import { readFileSync } from 'node:fs';
+import ProjectCard from '../components/ProjectCard.astro';
+import type { CatalogFile } from '../lib/types.ts';
+import '../styles/global.css';
+
+const catalogPath = process.env.CATALOG_PATH ?? 'src/data/catalog.json';
+const catalog: CatalogFile = JSON.parse(readFileSync(catalogPath, 'utf8'));
+
+const all = [...catalog.public, ...catalog.private];
+const times = all.map((p) => Date.parse(p.pushedAt));
+const oldest = Math.min(...times);
+const newest = Math.max(...times);
+const share = (iso: string) =>
+  newest === oldest ? 1 : 0.08 + 0.92 * ((Date.parse(iso) - oldest) / (newest - oldest));
+
+const generated = new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
+const { title, tagline } = catalog.site;
+---
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>{title}</h1>
+        {tagline && <p class="tagline">{tagline}</p>}
+        <p class="stamp">Lista odświeżona {generated}.</p>
+      </header>
+
+      <section aria-labelledby="public-heading">
+        <h2 id="public-heading">Publiczne ({catalog.public.length})</h2>
+        {catalog.public.length === 0 ? (
+          <p class="empty">Brak publicznych projektów. Pojawią się tu same, gdy upublicznisz repozytorium na GitHubie.</p>
+        ) : (
+          <ul>{catalog.public.map((p) => <ProjectCard project={p} share={share(p.pushedAt)} />)}</ul>
+        )}
+      </section>
+
+      <section aria-labelledby="private-heading">
+        <h2 id="private-heading">Prywatne ({catalog.private.length})</h2>
+        {catalog.private.length === 0 ? (
+          <p class="empty">Brak prywatnych projektów do pokazania.</p>
+        ) : (
+          <ul>{catalog.private.map((p) => <ProjectCard project={p} share={share(p.pushedAt)} />)}</ul>
+        )}
+      </section>
+    </main>
+  </body>
+</html>

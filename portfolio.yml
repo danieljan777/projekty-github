@@ -1,0 +1,15 @@
+# Konfiguracja portfolio. Ten plik jest PUBLICZNY (repozytorium strony jest publiczne).
+# Prywatne repozytoria pokazują się z samą nazwą, językiem i datą aktywności.
+# Aby ujawnić więcej o prywatnym projekcie, dopisz tu wpis (title/description/url).
+# Aby ukryć projekt całkowicie: hidden: true. Klucz = nazwa repozytorium.
+site:
+  title: "Daniel Jankowski — projekty"
+  tagline: "Wszystkie moje projekty z GitHuba, aktualizowane automatycznie."
+
+projects:
+  test1:
+    hidden: true
+  locky-web:
+    title: "Locky Łódź"
+    description: "Strona internetowa Locky Łódź."
+    url: "https://locky-web.vercel.app"
